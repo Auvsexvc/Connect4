@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<OutputType>WinExe</OutputType>
+	<TargetFramework>net6.0-windows</TargetFramework>
+	<RootNamespace>Connect4WPF</RootNamespace>
+	<Nullable>enable</Nullable>
+	<UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\Connect4Background.jpg" />
+    <None Remove="Assets\Connect4Uniform.png" />
+    <None Remove="Assets\Green.png" />
+    <None Remove="Assets\Red.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Connect4Background.jpg" />
+    <Resource Include="Assets\Connect4Uniform.png" />
+    <Resource Include="Assets\Red.png" />
+    <Resource Include="Assets\Green.png" />
+  </ItemGroup>
+
+</Project>
