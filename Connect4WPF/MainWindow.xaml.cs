@@ -57,14 +57,14 @@ namespace Connect4WPF
 
         private void OnColumnFull()
         {
-            MessageBox.Show("Selected column is full, try another one. ", "Column full!!!");
+            MessageBox.Show(Messages.OnColumnFullText, Messages.OnColumnFullBoxName);
         }
 
         private void SetupGameGrid()
         {
-            for (int r = 0; r < 6; r++)
+            for (int r = 0; r < GameGrid.Rows; r++)
             {
-                for (int c = 0; c < 7; c++)
+                for (int c = 0; c < GameGrid.Columns; c++)
                 {
                     Image imageControl = new();
                     GameGrid.Children.Add(imageControl);
@@ -93,9 +93,9 @@ namespace Connect4WPF
 
         private async void OnGameRestarted()
         {
-            for (int r = 0; r < 6; r++)
+            for (int r = 0; r < GameGrid.Rows; r++)
             {
-                for (int c = 0; c < 7; c++)
+                for (int c = 0; c < GameGrid.Columns; c++)
                 {
                     imageControls[c, r].Source = null;
                 }
@@ -152,7 +152,7 @@ namespace Connect4WPF
 
         private void GameGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            double squareSize = GameGrid.Width / 7;
+            double squareSize = GameGrid.Width / GameGrid.Columns;
             Point clickPosition = e.GetPosition(GameGrid);
             int col = (int)(clickPosition.X / squareSize);
             gameState.MakeMove(col);
@@ -166,7 +166,10 @@ namespace Connect4WPF
         private void PlayAgain_Click(object sender, RoutedEventArgs e)
         {
             if (gameState.GameOver)
+            {
                 gameState.Reset();
+            }
+
             SetupGame();
         }
 
@@ -204,9 +207,9 @@ namespace Connect4WPF
 
         private (Point, Point) FindLinePoints(WinInfo winInfo)
         {
-            double wSize = GameGrid.Width / 7;
+            double wSize = GameGrid.Width / GameGrid.Columns;
             double wmargin = wSize / 2;
-            double hSize = GameGrid.Height / 6;
+            double hSize = GameGrid.Height / GameGrid.Rows;
             double hmargin = hSize / 2;
 
             double x1 = (winInfo.StartCoordsOfWinningLine.Item1 * wSize) + wmargin + GameGrid.Margin.Left;

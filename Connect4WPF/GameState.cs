@@ -66,6 +66,23 @@ namespace Connect4WPF
             }
         }
 
+        public void EndTurn()
+        {
+            if (CurrentPlayer == player1)
+            {
+                TurnsPassed++;
+            }
+        }
+
+        public void Reset()
+        {
+            CurrentPlayer = player1;
+            TurnsPassed = 1;
+            GameOver = false;
+            discs.Clear();
+            GameRestarted?.Invoke();
+        }
+
         private bool CanMakeMove()
         {
             return !GameOver;
@@ -100,36 +117,24 @@ namespace Connect4WPF
             SwitchedPlayer?.Invoke();
         }
 
-        public void EndTurn()
-        {
-            if (CurrentPlayer == player1)
-            {
-                TurnsPassed++;
-            }
-        }
-
         private bool DidMoveWin(out WinInfo winInfo)
         {
-            List<(int, int)> tmp = new();
-            if (IsHorizontalWin(out tmp))
+            if (IsHorizontalWin(out List<(int, int)> tmp))
             {
                 winInfo = new WinInfo { Type = WinType.Horizontal, NumberOfTurnsToWin = TurnsPassed, StartCoordsOfWinningLine = tmp.First(), EndCoordsOfWinningLine = tmp.Last() };
                 return true;
             }
-
-            if (IsVerticalWin(out tmp))
+            else if (IsVerticalWin(out tmp))
             {
                 winInfo = new WinInfo { Type = WinType.Vertical, NumberOfTurnsToWin = TurnsPassed, StartCoordsOfWinningLine = tmp.First(), EndCoordsOfWinningLine = tmp.Last() };
                 return true;
             }
-
-            if (IsDiagonalAscendingWin(out tmp))
+            else if (IsDiagonalAscendingWin(out tmp))
             {
                 winInfo = new WinInfo { Type = WinType.Diagonal, NumberOfTurnsToWin = TurnsPassed, StartCoordsOfWinningLine = tmp.First(), EndCoordsOfWinningLine = tmp.Last() };
                 return true;
             }
-
-            if (IsDiagonalDescendingWin(out tmp))
+            else if (IsDiagonalDescendingWin(out tmp))
             {
                 winInfo = new WinInfo { Type = WinType.AntiDiagonal, NumberOfTurnsToWin = TurnsPassed, StartCoordsOfWinningLine = tmp.First(), EndCoordsOfWinningLine = tmp.Last() };
                 return true;
@@ -264,15 +269,6 @@ namespace Connect4WPF
             }
 
             return false;
-        }
-
-        public void Reset()
-        {
-            CurrentPlayer = player1;
-            TurnsPassed = 1;
-            GameOver = false;
-            discs.Clear();
-            GameRestarted?.Invoke();
         }
     }
 }
